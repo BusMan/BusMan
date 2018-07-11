@@ -1,0 +1,5 @@
+db.sqlite3
+env/
+.envrc
+
+node_modules/
