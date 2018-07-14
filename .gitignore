@@ -106,6 +106,7 @@ venv.bak/
 db.sqlite3
 env/
 .envrc
+busman/collected_static
 **/__pycache__/
 */__pycache__/
 

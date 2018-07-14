@@ -1,5 +1,6 @@
 {# Base template that all pages extend from #}
 {% load static %}
+{% load pipeline %}
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +12,7 @@
         {% else %}
         <title>BusMan</title>
         {% endif %}
-
+        {% stylesheet 'base' %}
         <script src="{% static "js/vendor/vue.js" %}" charset="utf-8"></script>
     </head>
     <body>
