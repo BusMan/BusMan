@@ -1,0 +1,21 @@
+{# Base template that all pages extend from #}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        {% if page_title %}
+        <title>BusMan | {{ page_title }}</title>
+        {% else %}
+        <title>BusMan</title>
+        {% endif %}
+
+        <script src="{% static "js/vendor/vue.js" %}" charset="utf-8"></script>
+    </head>
+    <body>
+        {% block body %}
+        {% endblock body %}
+    </body>
+</html>
