@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+
+# App settings
+SCHOOL = ""  # string: school name
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'pipeline',
     'channels',
+    'jsonify',
     'busman.apps.usermgmt'
 ]
 
@@ -150,10 +156,28 @@ PIPELINE = {
             ),
             'output_filename': 'css/login.css'
         }
+    },
+    'JAVASCRIPT': {
+        'login': {
+            'source_filenames': (
+                'js/usermgmt/login.browserify.js',
+            ),
+            'output_filename': 'js/login.js'
+        }
     }
 }
+if DEBUG:
+    PIPELINE['BROWSERIFY_ARGS'] = ['-d']
+else:
+    PIPELINE['BROWSERIFY_ARGS'] = []
+# vueify
+PIPELINE['BROWSERIFY_ARGS'] += '--transform [ vueify ]'.split()
+
 PIPELINE['CSS_COMPRESSOR'] = 'pipeline.compressors.yuglify.YuglifyCompressor'
 PIPELINE['JS_COMPRESSOR'] = 'pipeline.compressors.yuglify.YuglifyCompressor'
 PIPELINE['COMPILERS'] = (
-  'pipeline.compilers.sass.SASSCompiler',
+    'pipeline.compilers.sass.SASSCompiler',
+    'pipeline_browserify.compiler.BrowserifyCompiler',
 )
+
+from .secret import *

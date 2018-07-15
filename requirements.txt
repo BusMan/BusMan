@@ -7,6 +7,10 @@ channels==2.1.2
 constantly==15.1.0
 daphne==2.2.0
 Django==2.0.7
+django-extensions==2.0.7
+django-jsonify==0.3.0
+django-pipeline==1.6.14
+django-pipeline-browserify==0.6.2
 djangorestframework==3.8.2
 hyperlink==18.0.0
 idna==2.7

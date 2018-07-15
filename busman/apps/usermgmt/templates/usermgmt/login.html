@@ -7,11 +7,14 @@
 {% stylesheet 'login' %}
 {% endblock css %}
 
+{% block js %}
+{% javascript 'login' %}
+{% endblock js %}
+
 {% block body %}
 
-<header>
-    <h1>busman</h1>
-</header>
+<div id="app" class="name">
+</div>
 
 <form action="" method="POST" accept-charset="utf-8">
     {% csrf_token %}

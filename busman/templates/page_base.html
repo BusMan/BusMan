@@ -1,6 +1,7 @@
 {# Base template that all pages extend from #}
 {% load static %}
 {% load pipeline %}
+{% load jsonify %}
 
 <!DOCTYPE html>
 <html>
@@ -13,14 +14,17 @@
         <title>BusMan</title>
         {% endif %}
         {% stylesheet 'base' %}
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <script charset="utf-8">
+            window.data = {{ data|jsonify }}
+        </script>
         {% block css %}
         {% endblock css %}
-        <script src="{% static "js/vendor/vue.js" %}" charset="utf-8"></script>
-        {% block js %}
-        {% endblock js %}
     </head>
     <body>
         {% block body %}
         {% endblock body %}
+        {% block js %}
+        {% endblock js %}
     </body>
 </html>
