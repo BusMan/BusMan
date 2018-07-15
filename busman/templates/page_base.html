@@ -13,7 +13,11 @@
         <title>BusMan</title>
         {% endif %}
         {% stylesheet 'base' %}
+        {% block css %}
+        {% endblock css %}
         <script src="{% static "js/vendor/vue.js" %}" charset="utf-8"></script>
+        {% block js %}
+        {% endblock js %}
     </head>
     <body>
         {% block body %}

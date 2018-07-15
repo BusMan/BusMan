@@ -139,10 +139,16 @@ PIPELINE = {
     'STYLESHEETS': {
         'base': {
             'source_filenames': (
+                'css/vendor/normalize.css',
                 'css/base.scss',
-                'css/colors.scss'
             ),
             'output_filename': 'css/base.css'
+        },
+        'login': {
+            'source_filenames': (
+                'css/usermgmt/login.scss',
+            ),
+            'output_filename': 'css/login.css'
         }
     }
 }

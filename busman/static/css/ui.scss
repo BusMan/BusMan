@@ -1,0 +1,43 @@
+%button {
+    border-radius: 5px;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    padding: 12px 17px;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    background-color: $light-grey;
+}
+
+%single-line-textbox {
+    border-radius: 5px;
+    min-width: 200px;
+    padding: 12px 17px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    background-color: $light-grey;
+
+    &::placeholder {
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+    @extend %single-line-textbox;
+}
+
+button {
+    @extend %button;
+}
+
+button.accent {
+    background-color: $accent;
+}
