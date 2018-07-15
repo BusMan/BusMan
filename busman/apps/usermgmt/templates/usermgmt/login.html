@@ -1,0 +1,24 @@
+{# Login Page #}
+{% extends "page_base.html" %}
+
+{% load pipeline %}
+
+{% block css %}
+{% stylesheet 'login' %}
+{% endblock css %}
+
+{% block body %}
+
+<header>
+    <h1>busman</h1>
+</header>
+
+<form action="" method="POST" accept-charset="utf-8">
+    {% csrf_token %}
+    {% for field in form %}
+    {{ field }}<br />
+    {% endfor %}
+    <button class="submit accent">Log in</button>
+</form>
+
+{% endblock body %}

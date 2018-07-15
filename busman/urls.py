@@ -19,6 +19,6 @@ from django.urls import path, include
 from busman.apps.usermgmt import urls as usermgmt
 
 urlpatterns = [
-    path('login/', include(usermgmt)),
+    path('', include(usermgmt)),
     path('admin/', admin.site.urls),
 ]
