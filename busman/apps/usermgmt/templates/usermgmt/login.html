@@ -13,14 +13,14 @@
 
 {% block body %}
 
-<div id="app" class="name">
-</div>
+<div id="app" class="name"></div>
 
 <form action="" method="POST" accept-charset="utf-8">
     {% csrf_token %}
     {% for field in form %}
     {{ field }}<br />
     {% endfor %}
+    <input type="hidden" name="next" value="{{ next }}" />
     <button class="submit accent">Log in</button>
 </form>
 
