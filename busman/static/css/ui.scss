@@ -1,3 +1,6 @@
+@import "vendor/hover";
+@import "colors";
+
 %button {
     border-radius: 5px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
@@ -10,6 +13,14 @@
     text-transform: uppercase;
 
     background-color: $light-grey;
+
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0px 2px 3px 2px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+    }
 }
 
 %single-line-textbox {
@@ -48,9 +59,11 @@ button.accent {
 
     .tooltip-inner {
         background: $black;
-        color: white;
-        border-radius: 16px;
+        color: $white;
+        border-radius: 2px;
         padding: 5px 10px 4px;
+
+        font-size: .75em;
     }
 
     .tooltip-arrow {
@@ -67,12 +80,12 @@ button.accent {
         margin-bottom: 5px;
 
         .tooltip-arrow {
-            border-width: 5px 5px 0 5px;
+            border-width: 3px 3px 0 3px;
             border-left-color: transparent !important;
             border-right-color: transparent !important;
             border-bottom-color: transparent !important;
-            bottom: -5px;
-            left: calc(50% - 5px);
+            bottom: -3px;
+            left: calc(50% - 3px);
             margin-top: 0;
             margin-bottom: 0;
         }
@@ -82,12 +95,12 @@ button.accent {
         margin-top: 5px;
 
         .tooltip-arrow {
-            border-width: 0 5px 5px 5px;
+            border-width: 0 3px 3px 3px;
             border-left-color: transparent !important;
             border-right-color: transparent !important;
             border-top-color: transparent !important;
-            top: -5px;
-            left: calc(50% - 5px);
+            top: -3px;
+            left: calc(50% - 3px);
             margin-top: 0;
             margin-bottom: 0;
         }
@@ -97,12 +110,12 @@ button.accent {
         margin-left: 5px;
 
         .tooltip-arrow {
-            border-width: 5px 5px 5px 0;
+            border-width: 3px 3px 3px 0;
             border-left-color: transparent !important;
             border-top-color: transparent !important;
             border-bottom-color: transparent !important;
-            left: -5px;
-            top: calc(50% - 5px);
+            left: -3px;
+            top: calc(30% - 3px);
             margin-left: 0;
             margin-right: 0;
         }
@@ -112,12 +125,12 @@ button.accent {
         margin-right: 5px;
 
         .tooltip-arrow {
-            border-width: 5px 0 5px 5px;
+            border-width: 3px 0 3px 3px;
             border-top-color: transparent !important;
             border-right-color: transparent !important;
             border-bottom-color: transparent !important;
-            right: -5px;
-            top: calc(50% - 5px);
+            right: -3px;
+            top: calc(50% - 3px);
             margin-left: 0;
             margin-right: 0;
         }
