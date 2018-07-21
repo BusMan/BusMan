@@ -18,7 +18,7 @@ SCHOOL = ""  # string: school name
 
 
 # Django settings overrides
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/app/"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,7 +33,7 @@ SECRET_KEY = 'menmi2ehu0*91ta#xho_scz+1dtzv=*+dz5c7r05fz6h#@+@$w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'pipeline',
     'channels',
     'jsonify',
-    'busman.apps.usermgmt'
+    'busman.apps.usermgmt',
+    'busman.apps.busmap'
 ]
 
 MIDDLEWARE = [
@@ -158,6 +159,12 @@ PIPELINE = {
                 'css/usermgmt/login.scss',
             ),
             'output_filename': 'css/login.css'
+        },
+        'busmap': {
+            'source_filenames': (
+                'css/busmap/busmap.scss',
+            ),
+            'output_filename': 'css/busmap.css'
         }
     },
     'JAVASCRIPT': {
@@ -166,6 +173,12 @@ PIPELINE = {
                 'js/usermgmt/login.browserify.js',
             ),
             'output_filename': 'js/login.js'
+        },
+        'busmap': {
+            'source_filenames': (
+                'js/busmap/map.browserify.js',
+            ),
+            'output_filename': 'js/busmap.js'
         }
     }
 }

@@ -21,8 +21,8 @@ class Route(models.Model):
 
 
 class UserBusInfo(models.Model):
-    user = models.ForeignKey(User, unique=True, related_name="bus")
-    route = models.ForeignKey(Route, null=True, blank=True)
+    user = models.OneToOneField(User, related_name="bus", on_delete=models.CASCADE)
+    route = models.ForeignKey(Route, null=True, blank=True, on_delete=models.SET_NULL)
     is_bus_admin = models.BooleanField(default=False)
 
     @property

@@ -1,0 +1,25 @@
+{# Main App Page #}
+{% extends "page_base.html" %}
+
+{% load pipeline %}
+
+{% block css %}
+{% stylesheet 'busmap' %}
+{% endblock css %}
+
+{% block js %}
+<script>
+this.data = {
+    "topbar": {
+        "message": "Hi admin, there are 11 buses left"
+    }
+}
+</script>
+{% javascript 'busmap' %}
+{% endblock js %}
+
+{% block body %}
+
+<div id="app" class="name"></div>
+
+{% endblock body %}
