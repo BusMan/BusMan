@@ -1,7 +1,6 @@
 <template>
   <div>
     <login-header :school="school"></login-header>
-    <tooltip/>
   </div>
 </template>
 

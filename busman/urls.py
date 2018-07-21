@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 from busman.apps.usermgmt import urls as usermgmt
+from busman.apps.busmap import urls as busmap
 
 urlpatterns = [
     path('', include(usermgmt)),
+    path('app/', include(busmap)),
     path('admin/', admin.site.urls),
 ]

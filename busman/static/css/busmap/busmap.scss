@@ -1,0 +1,14 @@
+@import '../colors';
+@import '../ui';
+
+.topbar {
+    width: 100vw;
+
+    @include drop-shadow;
+    padding: 1rem;
+
+    background-color: $true-white;
+    border-top: 5px solid $accent;
+
+    font-weight: bold;
+}
