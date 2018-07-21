@@ -18,9 +18,8 @@ class CustomLoginView(LoginView):
 
 
 class IndexView(View):
-
     def get(self, request):
         if request.user.is_authenticated:
-            return HttpResponse("You're logged in {}".format(request.user.username))
+            return redirect('busmap')
         else:
             return redirect('login')

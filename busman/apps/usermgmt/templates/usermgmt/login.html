@@ -2,12 +2,16 @@
 {% extends "page_base.html" %}
 
 {% load pipeline %}
+{% load jsonify %}
 
 {% block css %}
 {% stylesheet 'login' %}
 {% endblock css %}
 
 {% block js %}
+<script charset="utf-8">
+    window.data = {{ data|jsonify }}
+</script>
 {% javascript 'login' %}
 {% endblock js %}
 
