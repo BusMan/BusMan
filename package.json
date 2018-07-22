@@ -36,6 +36,7 @@
     },
     "dependencies": {
         "babel-runtime": "^6.26.0",
+        "svg.js": "^2.6.5",
         "v-tooltip": "^2.0.0-rc.33",
         "vue": "^2.5.16"
     }

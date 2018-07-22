@@ -1,26 +1,29 @@
 <template>
   <div>
     <top-bar :message="message"></top-bar>
-    <mapsvg/>
+    <map-svg :selected="selected" :highlighted="highlighted"/>
   </div>
 </template>
 
 <script>
 import topBar from './components/topBar.vue';
-import mapsvg from './components/mapSvg.vue';
+import mapSvg from './components/mapSvg.vue';
 
 export default {
   props: [
-    'topbar'
+    'topbar',
+    'routeList'
   ],
   data: function () {
     return {
-      'message': this.topbar.message
+      'message': this.topbar.message,
+      'selected': null,
+      'highlighted': null
     }
   },
   components: {
     topBar,
-    mapsvg,
+    mapSvg,
   }
 }
 </script>
