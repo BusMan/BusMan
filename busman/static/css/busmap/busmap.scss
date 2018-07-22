@@ -6,9 +6,24 @@
 
     @include drop-shadow;
     padding: 1rem;
+    border-top: 5px solid $accent;
+    position: fixed;
+    top: 0;
 
     background-color: $true-white;
-    border-top: 5px solid $accent;
 
     font-weight: bold;
+}
+
+.map-svg > svg {
+    width: 100vw;
+    height: 70vh;
+}
+
+body > div {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
 }

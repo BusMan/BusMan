@@ -1,9 +1,13 @@
 <template>
-  <top-bar :message="message"></top-bar>
+  <div>
+    <top-bar :message="message"></top-bar>
+    <mapsvg/>
+  </div>
 </template>
 
 <script>
 import topBar from './components/topBar.vue';
+import mapsvg from './components/mapSvg.vue';
 
 export default {
   props: [
@@ -15,7 +19,8 @@ export default {
     }
   },
   components: {
-    topBar
+    topBar,
+    mapsvg,
   }
 }
 </script>
