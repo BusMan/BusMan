@@ -18,6 +18,7 @@ SCHOOL = ""  # string: school name
 
 
 # Django settings overrides
+LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/app/"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
 
 
 # Create your models here.
@@ -19,6 +20,14 @@ class Route(models.Model):
         self.space = ''
         self.save()
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'routeName': self.route_name,
+            'space': self.space,
+            'status': self.status
+        }
+
 
 class UserBusInfo(models.Model):
     user = models.OneToOneField(User, related_name="bus", on_delete=models.CASCADE)
@@ -30,3 +39,24 @@ class UserBusInfo(models.Model):
         """Returns whether user can assign buses
         """
         return self.is_bus_admin or self.user.is_superuser
+
+    def serialize(self):
+        name = self.user.first_name
+        if name is None or len(name) == 0:
+            name = self.user.username
+        return {
+            'route_id': self.route.id if self.route is not None else None,
+            'is_admin': self.is_admin,
+            'name': name
+        }
+
+
+def attach_bus_info(instance, created, raw, **kwargs):
+    if not created or raw:
+        return
+    route_info, _ = UserBusInfo.objects.get_or_create(user=instance)
+    route_info.save()
+
+
+post_save.connect(attach_bus_info, sender=User, dispatch_uid="attach_bus_info")
+

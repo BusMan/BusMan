@@ -11,12 +11,12 @@ import mapSvg from './components/mapSvg.vue';
 
 export default {
   props: [
-    'topbar',
-    'routeList'
+    'user',
+    'routes'
   ],
   data: function () {
     return {
-      'message': this.topbar.message,
+      'message': `Hi ${this.user.name}, you are cool.`,
       'selected': null,
       'highlighted': null
     }

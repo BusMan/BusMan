@@ -2,6 +2,7 @@
 {% extends "page_base.html" %}
 
 {% load pipeline %}
+{% load jsonify %}
 
 {% block css %}
 {% stylesheet 'busmap' %}
@@ -9,11 +10,7 @@
 
 {% block js %}
 <script>
-this.data = {
-    "topbar": {
-        "message": "Hi admin, there are 11 buses left"
-    }
-}
+this.data = {{ data|jsonify }};
 </script>
 {% javascript 'busmap' %}
 {% endblock js %}
