@@ -197,4 +197,9 @@ PIPELINE['COMPILERS'] = (
     'pipeline_browserify.compiler.BrowserifyCompiler',
 )
 
+if os.getenv('SASS_BINARY'):
+    PIPELINE['SASS_BINARY'] = os.getenv('SASS_BINARY')
+if os.getenv('BROWSERIFY_BINARY'):
+    PIPELINE['BROWSERIFY_BINARY'] = os.getenv('BROWSERIFY_BINARY')
+
 from .secret import *  # noqa
