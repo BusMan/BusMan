@@ -25,5 +25,20 @@ body > div {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
 
+.actionbar {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(6rem);
+    will-change: transform;
+
+    .action {
+        width: 100vw;
+        padding: 1rem;
+
+        background-color: $true-white;
+
+        font-weight: bold;
+    }
 }
