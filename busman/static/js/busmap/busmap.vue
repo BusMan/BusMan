@@ -1,5 +1,5 @@
 <template>
-  <div @click="click">
+  <div @click="click" @mouseup="mouseup">
     <top-bar :message="message"></top-bar>
     <map-svg :selected="selected" :highlighted="highlighted"/>
     <action-bar :actions="actions"></action-bar>
@@ -46,7 +46,7 @@ export default {
     actionBar,
   },
   methods: {
-    click: function(e) {
+    click: function (e) {
       console.log('main page click');
       const actionBar = document.getElementsByClassName('actionbar')[0];
       if (!actionBar) return;
@@ -70,6 +70,10 @@ export default {
           actionBar.style.transform = 'translateY(6rem)';
         }
       );
+    },
+    mouseup: function (e) {
+      const actionBar = document.getElementsByClassName('actionbar')[0];
+      actionBar.dataset.touchInProgress = false;
     }
   }
 }

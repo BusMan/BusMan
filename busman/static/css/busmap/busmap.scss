@@ -1,5 +1,6 @@
 @import '../colors';
 @import '../ui';
+@import '../mixins';
 
 .topbar {
     width: 100vw;
@@ -40,5 +41,7 @@ body > div {
         background-color: $true-white;
 
         font-weight: bold;
+
+        @include no-select;
     }
 }

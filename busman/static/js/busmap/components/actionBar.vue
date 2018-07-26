@@ -17,6 +17,7 @@ export default {
   props: [
     'actions'
   ],
+  // TODO: move touch events to busmap.vue
   methods: {
     actionBarTouchStart: function (e) {
       console.log('actionBarTouchStart');
@@ -26,10 +27,15 @@ export default {
       this.startY = this.currentY;
       this.actionBarStartY = parseFloat(getComputedStyle(actionBar).transform.replace(/.*, /g, '').replace(')', ''));
       this.lockedOpen = false;
+      this.actionBarTouchInProgress = true;
+      actionBar.dataset.touchInProgress = true;
     },
     actionBarTouchMove: function (e) {
       console.log('actionBarTouchMove');
       const actionBar = document.getElementsByClassName("actionbar")[0];
+
+      this.actionBarTouchInProgress = this.actionBarTouchInProgress && actionBar.dataset.touchInProgress == 'true';
+      if (!this.actionBarTouchInProgress) return;
 
       this.moving = true;
       this.currentY = e.clientY || e.touches[0].clientY;
@@ -52,6 +58,8 @@ export default {
     actionBarTouchEnd: function (e) {
       console.log('actionBarTouchEnd');
       const actionBar = document.getElementsByClassName("actionbar")[0];
+      
+      this.actionBarTouchInProgress = false;
 
       if (this.moving) {
         if (!this.lockedOpen) {
@@ -76,6 +84,7 @@ export default {
         }
       }
       this.moving = false;
+      actionBar.dataset.touchInProgress = false;
     },
     actionBarClick: function (e) {
       e.stopPropagation();
