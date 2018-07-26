@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="click">
     <top-bar :message="message"></top-bar>
     <map-svg :selected="selected" :highlighted="highlighted"/>
     <action-bar :actions="actions"></action-bar>
@@ -44,6 +44,33 @@ export default {
     topBar,
     mapSvg,
     actionBar,
+  },
+  methods: {
+    click: function(e) {
+      console.log('main page click');
+      const actionBar = document.getElementsByClassName('actionbar')[0];
+      if (!actionBar) return;
+      const numberOfActions = this.actions.length;
+      const initialOffsetInRem = numberOfActions * 2;
+      const frames = [
+        {
+          transform: actionBar.style.transform,
+        },
+        {
+          transform: 'translateY(6rem)',
+        }
+      ]
+      const options = {
+        easing: 'cubic-bezier(0, 0, 0.31, 1)',
+        duration: 100
+      }
+      actionBar
+        .animate(frames, options)
+        .addEventListener('finish', function() {
+          actionBar.style.transform = 'translateY(6rem)';
+        }
+      );
+    }
   }
 }
 </script>
