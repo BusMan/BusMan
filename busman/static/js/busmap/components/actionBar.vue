@@ -1,6 +1,11 @@
 <template>
-<div class="actionbar" @click=click @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
-  <div v-for="action in actions" class="action" :data-action="action.id">
+<div class="actionbar"
+  @click="actionBarClick"
+  @touchstart="actionBarTouchStart" @touchmove="actionBarTouchMove" @touchend="actionBarTouchEnd"
+  @mousedown="actionBarTouchStart" @mousemove="actionBarTouchMove" @mouseup="actionBarTouchEnd">
+  <div v-for="action in actions" class="action" :data-action="action.id"
+    @touchstart="actionTouchStart" @touchend="actionTouchEnd"
+    @mousedown="actionTouchStart" @mouseup="actionTouchEnd">
     <i :class="['fa', action.icon]"></i>
     <span>{{ action.text }}</span>
   </div>
@@ -13,21 +18,21 @@ export default {
     'actions'
   ],
   methods: {
-    touchstart: function(e) {
-      console.log('touchstart');
+    actionBarTouchStart: function (e) {
+      console.log('actionBarTouchStart');
       const actionBar = document.getElementsByClassName("actionbar")[0];
 
-      this.currentY = e.touches[0].clientY;
+      this.currentY = e.clientY || e.touches[0].clientY;
       this.startY = this.currentY;
       this.actionBarStartY = parseFloat(getComputedStyle(actionBar).transform.replace(/.*, /g, '').replace(')', ''));
       this.lockedOpen = false;
     },
-    touchmove: function(e) {
-      console.log('touchmove');
+    actionBarTouchMove: function (e) {
+      console.log('actionBarTouchMove');
       const actionBar = document.getElementsByClassName("actionbar")[0];
 
       this.moving = true;
-      this.currentY = e.touches[0].clientY;
+      this.currentY = e.clientY || e.touches[0].clientY;
 
       const deltaY = this.currentY - this.startY;
       const pixelsPerRem = parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -44,8 +49,8 @@ export default {
 
       actionBar.style.transform = "translateY(" + newY + "px)";
     },
-    touchend: function(e) {
-      console.log('touchend');
+    actionBarTouchEnd: function (e) {
+      console.log('actionBarTouchEnd');
       const actionBar = document.getElementsByClassName("actionbar")[0];
 
       if (this.moving) {
@@ -64,7 +69,7 @@ export default {
           }
           actionBar
             .animate(frames, options)
-            .addEventListener('finish', function() {
+            .addEventListener('finish', function () {
               actionBar.style.transform = 'translateY(6rem)';
             }
           );
@@ -72,7 +77,7 @@ export default {
       }
       this.moving = false;
     },
-    click: function(e) {
+    actionBarClick: function (e) {
       e.stopPropagation();
       console.log('action clicked');
       
@@ -91,6 +96,14 @@ export default {
           console.log('unrecognized action');
           break;
       }
+    },
+    actionTouchStart: function (e) {
+      this.actionSelectedHtml = e.target;
+      this.actionSelectedHtml.style.backgroundColor = '#f9f9f9';
+    },
+    actionTouchEnd: function (e) {
+      if (!this.actionSelectedHtml) return;
+      this.actionSelectedHtml.style.backgroundColor = '$fff';
     }
   }
 }
