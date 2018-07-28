@@ -48,6 +48,10 @@ body > div {
         text-transform: uppercase;
         letter-spacing: 0.5px;
 
+        * {
+            pointer-events: none;
+        }
+
         @include no-select;
 
         i.fa { 
