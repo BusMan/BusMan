@@ -1,7 +1,7 @@
 <template>
   <div @click="busmapClick">
     <top-bar :message="message"></top-bar>
-    <map-svg :selected="selected" :highlighted="highlighted"/>
+    <map-svg :selected="selected" :highlighted="highlighted" @select-space="select"/>
     <action-bar :actions="actions" :actionbarOpen="actionbarOpen" @set-actionbar-open="setActionbarOpen"></action-bar>
   </div>
 </template>
@@ -52,6 +52,9 @@ export default {
     },
     setActionbarOpen: function (actionbarOpen) {
       this.actionbarOpen = actionbarOpen;
+    },
+    select: function (selected) {
+      this.selected = selected;
     }
   }
 }

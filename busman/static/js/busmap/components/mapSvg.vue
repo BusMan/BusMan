@@ -7,16 +7,25 @@
 <script>
 import SVG from 'svg.js';
 
+function resetStyles(space) {
+  space.style('stroke-width', '1px');
+  space.style('stroke', '#A1A09A');
+}
 
+function addOutline(space) {
+  space.style('stroke-width', '1.5px');
+  space.style('stroke', 'black');
+}
 
 export default {
   props: [
     'selected',
-    'highlighted'
+    'highlighted',
+    'routes'
   ],
   data: function () {
     return {
-      svg: null
+      svg: null,
     }
   },
   mounted: function () {
@@ -28,9 +37,25 @@ export default {
         return;
       }
       const spaceId = e.target.id;
-      const path = SVG.get(spaceId);
-      path.style('stroke-width', '1.5px');
-      path.style('stroke', 'black');
+      let selected = [spaceId];
+      this.$emit('select-space', selected);
+    },
+    updateMap: function () {
+      let spaces = this.svg.select('path').members;
+      for (let space of spaces) {
+        resetStyles(space);
+        if (this.selected.includes(space.node.id)) {
+          addOutline(space);
+        }
+      }
+    }
+  },
+  watch: {
+    selected: function () {
+      this.updateMap();
+    },
+    highlighted: function () {
+      this.updateMap();
     }
   }
 }
