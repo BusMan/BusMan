@@ -47,7 +47,10 @@ export default {
     actionBar,
   },
   methods: {
-    busmapClick: function () {
+    busmapClick: function (e) {
+      if (!this.actionbarOpen && e.target.nodeName !== 'path') {
+        this.selected = [];
+      }
       this.actionbarOpen = false;
     },
     setActionbarOpen: function (actionbarOpen) {
