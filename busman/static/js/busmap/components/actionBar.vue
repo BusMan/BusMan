@@ -20,87 +20,80 @@ export default {
       if (!this.actionbarOpen) {
         this.moving = true;
         this.lockedOpen = false;
-        this.actionBarTouchEnd();
+        this.moveActionBar(true);
         this.$emit('set-actionbar-open', false);
       }
     },
   },
-  // TODO: move touch events to busmap.vue
   methods: {
+    clamp: function (value, minimum, maximum) {
+      return Math.max(Math.min(value, maximum), minimum)
+    },
     actionBarTouchStart: function (e) {
       console.log('actionBarTouchStart');
-      const actionBar = document.getElementsByClassName("actionbar")[0];
 
       this.currentY = e.clientY || e.touches[0].clientY;
       this.startY = this.currentY;
-      this.actionBarStartY = parseFloat(getComputedStyle(actionBar).transform.replace(/.*, /g, '').replace(')', ''));
+
+      const actionBar = document.getElementsByClassName("actionbar")[0];
+      const actionBarTransformMatrixString = getComputedStyle(actionBar).transform;
+      this.actionBarStartY = parseFloat(actionBarTransformMatrixString.replace(/.*, /g, '').replace(')', ''));
+
       this.lockedOpen = false;
       this.actionBarTouchInProgress = true;
-      actionBar.dataset.touchInProgress = true;
     },
     actionBarTouchMove: function (e) {
-      console.log('actionBarTouchMove');
-      const actionBar = document.getElementsByClassName("actionbar")[0];
-
-      this.actionBarTouchInProgress = this.actionBarTouchInProgress && actionBar.dataset.touchInProgress == 'true';
+      console.log('actionBarTouchMove');      
       if (!this.actionBarTouchInProgress) return;
 
       this.moving = true;
-      this.currentY = e.clientY || e.touches[0].clientY;
 
+      this.currentY = e.clientY || e.touches[0].clientY;
       const deltaY = this.currentY - this.startY;
       const pixelsPerRem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-      const numberOfActions = 3;
-      const initialOffsetInPixels = (2 * numberOfActions) * pixelsPerRem;
-      
-      let newY = this.actionBarStartY + deltaY;
-      if (newY > initialOffsetInPixels) {
-        newY = initialOffsetInPixels;
-      } else if (newY < 0) {
-        newY = 0;
-      }
+      const numberOfActions = this.actions.length;
+      const initialOffsetInPixels = 3 * (numberOfActions - 1) * pixelsPerRem;
+      const newY = this.clamp(this.actionBarStartY + deltaY, 0, initialOffsetInPixels);
 
       this.lockedOpen = (newY < initialOffsetInPixels / 2);
 
+      const actionBar = document.getElementsByClassName("actionbar")[0];
       actionBar.style.transform = "translateY(" + newY + "px)";
     },
     actionBarTouchEnd: function (e) {
       console.log('actionBarTouchEnd');
-      const actionBar = document.getElementsByClassName("actionbar")[0];
-      
-      this.actionBarTouchInProgress = false;
 
-      if (this.moving) {
-        let endframePosition;
-        if (this.lockedOpen) {
-          this.$emit('set-actionbar-open', true);
-          endframePosition = 0;
-        } else { 
-          this.$emit('set-actionbar-open', false);
-          endframePosition = 6;
-        }
-
-        const frames = [
-          {
-            transform: actionBar.style.transform,
-          },
-          {
-            transform: 'translateY(' + endframePosition + 'rem)',
-          }
-        ]
-        const options = {
-          easing: 'cubic-bezier(0, 0, 0.31, 1)',
-          duration: 100
-        }
-        actionBar
-          .animate(frames, options)
-          .addEventListener('finish', function () {
-            actionBar.style.transform = 'translateY(' + endframePosition + 'rem)';
-          }
-        );
-      }
+      if (!this.moving) return;
       this.moving = false;
-      actionBar.dataset.touchInProgress = false;
+      this.actionBarTouchInProgress = false;
+      this.$emit('set-actionbar-open', this.lockedOpen);
+      this.moveActionBar();
+    },
+    moveActionBar: function (forceRetract=false) {
+      let endframePosition = 0;
+      if (!this.lockedOpen || forceRetract) {
+        const numberOfActions = this.actions.length;
+        const initialOffsetInRem = 3 * (numberOfActions - 1);
+        endframePosition = initialOffsetInRem;
+      }
+      this.moveActionBarToOffset(endframePosition);
+    },
+    moveActionBarToOffset: function (offset) {
+      const actionBar = document.getElementsByClassName("actionbar")[0];
+      const frames = [
+        { transform: actionBar.style.transform },
+        { transform: 'translateY(' + offset + 'rem)' }
+      ]
+      const options = {
+        easing: 'cubic-bezier(0, 0, 0.31, 1)',
+        duration: 100
+      }
+      actionBar
+        .animate(frames, options)
+        .addEventListener('finish', function () {
+          actionBar.style.transform = 'translateY(' + offset + 'rem)';
+        }
+      );
     },
     actionBarClick: function (e) {
       e.stopPropagation();
