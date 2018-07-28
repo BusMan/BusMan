@@ -34,14 +34,35 @@ body > div {
     transform: translateY(6rem);
     will-change: transform;
 
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    @include drop-shadow-top;
+
     .action {
         width: 100vw;
-        padding: 1rem;
+        padding: 1rem 1.5rem;
 
         background-color: $true-white;
 
         font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
 
         @include no-select;
+
+        i.fa { 
+            margin-right: 0.5rem;
+        }
+    }
+
+    .action:first-child {
+        border-top-left-radius: 0.75rem;
+        border-top-right-radius: 0.75rem;
+
+        padding-top: 1.4rem;
+    }
+    
+    .action:last-child {
+        padding-bottom: 1.4rem;
     }
 }

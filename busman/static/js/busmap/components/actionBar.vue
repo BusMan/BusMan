@@ -1,8 +1,7 @@
 <template>
 <div class="actionbar"
   @click="actionBarClick"
-  @touchstart="actionBarTouchStart" @touchmove="actionBarTouchMove" @touchend="actionBarTouchEnd"
-  @mousedown="actionBarTouchStart" @mousemove="actionBarTouchMove" @mouseup="actionBarTouchEnd">
+  @touchstart="actionBarTouchStart" @touchmove="actionBarTouchMove" @touchend="actionBarTouchEnd">
   <div v-for="action in actions" class="action" :data-action="action.id"
     @touchstart="actionTouchStart" @touchend="actionTouchEnd"
     @mousedown="actionTouchStart" @mouseup="actionTouchEnd">
@@ -50,8 +49,9 @@ export default {
         newY = initialOffsetInPixels;
       } else if (newY < 0) {
         newY = 0;
-        this.lockedOpen = true;
       }
+
+      this.lockedOpen = (newY < initialOffsetInPixels / 2);
 
       actionBar.style.transform = "translateY(" + newY + "px)";
     },
@@ -62,26 +62,29 @@ export default {
       this.actionBarTouchInProgress = false;
 
       if (this.moving) {
-        if (!this.lockedOpen) {
-          const frames = [
-            {
-              transform: actionBar.style.transform,
-            },
-            {
-              transform: 'translateY(6rem)',
-            }
-          ]
-          const options = {
-            easing: 'cubic-bezier(0, 0, 0.31, 1)',
-            duration: 100
-          }
-          actionBar
-            .animate(frames, options)
-            .addEventListener('finish', function () {
-              actionBar.style.transform = 'translateY(6rem)';
-            }
-          );
+        let endframePosition = 0;
+        if (!this.lockedOpen) { 
+          endframePosition = 6;
         }
+
+        const frames = [
+          {
+            transform: actionBar.style.transform,
+          },
+          {
+            transform: 'translateY(' + endframePosition + 'rem)',
+          }
+        ]
+        const options = {
+          easing: 'cubic-bezier(0, 0, 0.31, 1)',
+          duration: 100
+        }
+        actionBar
+          .animate(frames, options)
+          .addEventListener('finish', function () {
+            actionBar.style.transform = 'translateY(' + endframePosition + 'rem)';
+          }
+        );
       }
       this.moving = false;
       actionBar.dataset.touchInProgress = false;
@@ -90,30 +93,24 @@ export default {
       e.stopPropagation();
       console.log('action clicked');
       
-      const actionSelected = e.target.dataset.action;
-      switch (actionSelected) {
-        case 'assign-bus':
-          console.log('assign-bus');
-          break;
-        case 'search':
-          console.log('search');
-          break;
-        case 'mark-delayed':
-          console.log('mark-delayed');
-          break;
-        default:
-          console.log('unrecognized action');
-          break;
+      const actions = {
+        'assign-bus': this.assignBus,
+        'search': this.search,
+        'mark-delayed': this.markDelayed,
       }
+      const actionSelected = e.target.dataset.action;
+      const actionFunction = actions[actionSelected];
+      actionFunction();
     },
-    actionTouchStart: function (e) {
-      this.actionSelectedHtml = e.target;
-      this.actionSelectedHtml.style.backgroundColor = '#f9f9f9';
+    assignBus: function() {
+      console.log('assignBus');
     },
-    actionTouchEnd: function (e) {
-      if (!this.actionSelectedHtml) return;
-      this.actionSelectedHtml.style.backgroundColor = '$fff';
-    }
+    search: function() {
+      console.log('search');
+    },
+    markDelayed: function() {
+      console.log('markDelayed');
+    },
   }
 }
 </script>
