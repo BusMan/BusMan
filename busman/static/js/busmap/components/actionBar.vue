@@ -2,9 +2,7 @@
 <div class="actionbar"
   @click="actionBarClick"
   @touchstart="actionBarTouchStart" @touchmove="actionBarTouchMove" @touchend="actionBarTouchEnd">
-  <div v-for="action in actions" class="action" :data-action="action.id"
-    @touchstart="actionTouchStart" @touchend="actionTouchEnd"
-    @mousedown="actionTouchStart" @mouseup="actionTouchEnd">
+  <div v-for="action in actions" class="action" :data-action="action.id">
     <i :class="['fa', action.icon]"></i>
     <span>{{ action.text }}</span>
   </div>
@@ -14,8 +12,19 @@
 <script>
 export default {
   props: [
-    'actions'
+    'actions',
+    'actionbarOpen',
   ],
+  watch: {
+    'actionbarOpen': function () {
+      if (!this.actionbarOpen) {
+        this.moving = true;
+        this.lockedOpen = false;
+        this.actionBarTouchEnd();
+        this.$emit('set-actionbar-open', false);
+      }
+    },
+  },
   // TODO: move touch events to busmap.vue
   methods: {
     actionBarTouchStart: function (e) {
@@ -62,8 +71,12 @@ export default {
       this.actionBarTouchInProgress = false;
 
       if (this.moving) {
-        let endframePosition = 0;
-        if (!this.lockedOpen) { 
+        let endframePosition;
+        if (this.lockedOpen) {
+          this.$emit('set-actionbar-open', true);
+          endframePosition = 0;
+        } else { 
+          this.$emit('set-actionbar-open', false);
           endframePosition = 6;
         }
 

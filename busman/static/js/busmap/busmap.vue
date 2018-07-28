@@ -1,8 +1,8 @@
 <template>
-  <div @click="click" @mouseup="mouseup">
+  <div @click="busmapClick">
     <top-bar :message="message"></top-bar>
     <map-svg :selected="selected" :highlighted="highlighted"/>
-    <action-bar :actions="actions"></action-bar>
+    <action-bar :actions="actions" :actionbarOpen="actionbarOpen" @set-actionbar-open="setActionbarOpen"></action-bar>
   </div>
 </template>
 
@@ -21,6 +21,7 @@ export default {
       'message': `Hi ${this.user.name}, you are cool.`,
       'selected': null,
       'highlighted': null,
+      'actionbarOpen': false,
       'actions': [
         {
           'text': 'Assign Bus',
@@ -46,34 +47,11 @@ export default {
     actionBar,
   },
   methods: {
-    click: function (e) {
-      console.log('main page click');
-      const actionBar = document.getElementsByClassName('actionbar')[0];
-      if (!actionBar) return;
-      const numberOfActions = this.actions.length;
-      const initialOffsetInRem = numberOfActions * 2;
-      const frames = [
-        {
-          transform: actionBar.style.transform,
-        },
-        {
-          transform: 'translateY(6rem)',
-        }
-      ]
-      const options = {
-        easing: 'cubic-bezier(0, 0, 0.31, 1)',
-        duration: 100
-      }
-      actionBar
-        .animate(frames, options)
-        .addEventListener('finish', function() {
-          actionBar.style.transform = 'translateY(6rem)';
-        }
-      );
+    busmapClick: function () {
+      this.actionbarOpen = false;
     },
-    mouseup: function (e) {
-      const actionBar = document.getElementsByClassName('actionbar')[0];
-      actionBar.dataset.touchInProgress = false;
+    setActionbarOpen: function (actionbarOpen) {
+      this.actionbarOpen = actionbarOpen;
     }
   }
 }
