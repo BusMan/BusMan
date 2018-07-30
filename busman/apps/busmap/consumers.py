@@ -49,6 +49,4 @@ class BusConsumer(WebsocketConsumer):
 
         message = serialize_state(None, user=self.user)
 
-        self.send(text_data=json.dumps({
-            'message': message
-        }))
+        self.send(text_data=json.dumps(message))
