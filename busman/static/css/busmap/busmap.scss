@@ -121,6 +121,12 @@ body > div {
             height: 100%;
             overflow: scroll;
 
+            h4 {
+                padding: 1rem 1rem 0.5rem;
+                font-size: 0.875rem;
+                text-transform: uppercase;
+            }
+
             li {
                 padding: 1rem;
                 box-sizing: border-box;
