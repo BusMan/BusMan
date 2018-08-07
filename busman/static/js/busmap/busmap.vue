@@ -1,9 +1,9 @@
 <template>
   <div @click="busmapClick">
-    <search-overlay :routes="routes"></search-overlay>
+    <search-overlay :routes="routes" :visible="searchVisible" :action="searchAction" @close-search-overlay="closeSearchOverlay"></search-overlay>
     <top-bar :message="message"></top-bar>
     <map-svg :selected="selected" :highlighted="highlighted" @select-space="select"/>
-    <action-bar :actions="actions" :actionbarOpen="actionbarOpen" @set-actionbar-open="setActionbarOpen"></action-bar>
+    <action-bar :actions="actions" :actionbarOpen="actionbarOpen" @set-actionbar-open="setActionbarOpen" @action-selected="actionSelected"></action-bar>
   </div>
 </template>
 
@@ -42,6 +42,8 @@ export default {
         },
       ],
       'routes': this.routes,
+      'searchVisible': false,
+      'searchAction': '',
     }
   },
   components: {
@@ -60,8 +62,15 @@ export default {
     setActionbarOpen: function (actionbarOpen) {
       this.actionbarOpen = actionbarOpen;
     },
+    actionSelected: function (action) {
+      this.searchVisible = true;
+      this.searchAction = action;
+    },
     select: function (selected) {
       this.selected = selected;
+    },
+    closeSearchOverlay: function () {
+      this.searchVisible = false;
     }
   }
 }

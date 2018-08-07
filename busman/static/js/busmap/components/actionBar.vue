@@ -97,25 +97,9 @@ export default {
     },
     actionBarClick: function (e) {
       e.stopPropagation();
-      console.log('action clicked');
-      
-      const actions = {
-        'assign-bus': this.assignBus,
-        'search': this.search,
-        'mark-delayed': this.markDelayed,
-      }
       const actionSelected = e.target.dataset.action;
-      const actionFunction = actions[actionSelected];
-      actionFunction();
-    },
-    assignBus: function() {
-      console.log('assignBus');
-    },
-    search: function() {
-      console.log('search');
-    },
-    markDelayed: function() {
-      console.log('markDelayed');
+      console.log(actionSelected);
+      this.$emit('action-selected', actionSelected);
     },
   }
 }
