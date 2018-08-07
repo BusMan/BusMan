@@ -1,5 +1,6 @@
 <template>
   <div @click="busmapClick">
+    <search-overlay :routes="routes"></search-overlay>
     <top-bar :message="message"></top-bar>
     <map-svg :selected="selected" :highlighted="highlighted" :routes="routes" @select-space="select"/>
     <action-bar :actions="actions" :actionbarOpen="actionbarOpen" @set-actionbar-open="setActionbarOpen"></action-bar>
@@ -10,6 +11,7 @@
 import topBar from './components/topBar.vue';
 import mapSvg from './components/mapSvg.vue';
 import actionBar from './components/actionBar.vue';
+import searchOverlay from './components/searchOverlay.vue';
 
 export default {
   props: [
@@ -34,12 +36,14 @@ export default {
           'icon': 'fa-clock',
         },
       ],
+      'routes': this.routes,
     }
   },
   components: {
     topBar,
     mapSvg,
     actionBar,
+    searchOverlay,
   },
   methods: {
     busmapClick: function (e) {
