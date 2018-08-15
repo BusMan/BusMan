@@ -143,8 +143,13 @@ body > div {
                 box-sizing: border-box;
 
                 background-color: $true-white;
+                transition: background-color 0.2s;
 
                 border-top: solid 1px $white;
+
+                &:active {
+                    background-color: $light-grey;
+                }
             }
         }
     }
