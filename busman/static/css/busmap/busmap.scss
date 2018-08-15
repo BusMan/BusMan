@@ -87,7 +87,7 @@ body > div {
     .search-bar {
         width: 85%;
         display: grid;
-        margin: 0.75rem auto;
+        margin: 1rem auto 0.75rem;
         grid-template-columns: 1fr 85%;
 
         input {
@@ -101,6 +101,9 @@ body > div {
             letter-spacing: 0.5px;
 
             border-radius: 0 .75rem .75rem 0;
+
+            border: 1px solid $dark-grey;
+            border-left: none;
         }
 
         span {
@@ -113,7 +116,7 @@ body > div {
             background-color: $light-grey;
 
             border-radius: .75rem 0 0 .75rem;
-            border-right: 1px solid $dark-grey;
+            border: 1px solid $dark-grey;
         }
     }
 
@@ -122,7 +125,7 @@ body > div {
 
         ul {
             padding: 0;
-            height: calc(100% - #{$search-bar-height} - 1.5rem);
+            height: calc(100% - #{$search-bar-height} - 1.75rem);
             overflow: scroll;
 
             h4 {
@@ -130,6 +133,9 @@ body > div {
                 background-color: $white;
                 font-size: 0.875rem;
                 text-transform: uppercase;
+
+                position: sticky;
+                top: 0;
             }
 
             li {
@@ -142,4 +148,13 @@ body > div {
             }
         }
     }
+}
+
+.search-popup-enter-active, .search-popup-leave-active {
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.search-popup-enter, .search-popup-leave-to {
+    transform: translateY(100%);
+    opacity: 0;
 }

@@ -1,18 +1,20 @@
 <template>
-  <div class="search-overlay" v-if="visible">
-    <div class="search-bar">
-      <span class="cancel-button" @click="close"><i class="fas fa-arrow-left"></i></span>
-      <input type="text" placeholder="Search here..." v-model="queryText">
+  <transition name="search-popup">
+    <div class="search-overlay" v-if="visible">
+      <div class="search-bar">
+        <span class="cancel-button" @click="close"><i class="fas fa-arrow-left"></i></span>
+        <input type="text" placeholder="Search here..." v-model="queryText">
+      </div>
+      <div class="search-results">
+        <ul>
+          <div v-for="group in getSortedRouteGroups(queryText)">
+            <h4>{{ group.status }}</h4>
+            <li v-for="route in group.routes">{{ route.routeName }}</li>
+          </div>
+        </ul>
+      </div>
     </div>
-    <div class="search-results">
-      <ul>
-        <div v-for="group in getSortedRouteGroups(queryText)">
-          <h4>{{ group.status }}</h4>
-          <li v-for="route in group.routes">{{ route.routeName }}</li>
-        </div>
-      </ul>
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
