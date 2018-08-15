@@ -43,7 +43,7 @@ export default {
       this.actionBarTouchInProgress = true;
     },
     actionBarTouchMove: function (e) {
-      console.log('actionBarTouchMove');      
+      console.log('actionBarTouchMove');
       if (!this.actionBarTouchInProgress) return;
 
       this.moving = true;

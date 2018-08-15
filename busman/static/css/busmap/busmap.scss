@@ -54,7 +54,7 @@ body > div {
 
         @include no-select;
 
-        i.fa { 
+        i.fa {
             margin-right: 0.5rem;
         }
     }
@@ -65,7 +65,7 @@ body > div {
 
         padding-top: 1.4rem;
     }
-    
+
     .action:last-child {
         padding-bottom: 1.4rem;
     }
@@ -75,30 +75,32 @@ body > div {
     width: 100%;
     height: 100%;
     position: absolute;
+    border-radius: .75rem .75rem 0 0;
     z-index: 100;
 
-    background-color: $white;
+    box-shadow: 0px -1px 6px rgba(0, 0, 0, 0.2), 2px 0px 4px rgba(0, 0, 0, 0.2), -2px 0px 4px rgba(0, 0, 0, 0.2);
+
+    background-color: $true-white;
 
     $search-bar-height: 3rem;
 
     .search-bar {
-        width: 100%;
-        position: fixed;
-        top: 0;
+        width: 85%;
         display: grid;
-        grid-template-columns: 80% 1fr;
-
-        @include drop-shadow;
+        margin: 0.75rem auto;
+        grid-template-columns: 1fr 85%;
 
         input {
             width: 100%;
             height: $search-bar-height;
             padding: 1rem;
 
-            background-color: $true-white;
+            background-color: $light-grey;
 
             font-size: 1rem;
             letter-spacing: 0.5px;
+
+            border-radius: 0 .75rem .75rem 0;
         }
 
         span {
@@ -107,22 +109,25 @@ body > div {
             display: grid;
             align-items: center;
             justify-items: center;
-            
-            background-color: $accent;
+
+            background-color: $light-grey;
+
+            border-radius: .75rem 0 0 .75rem;
+            border-right: 1px solid $dark-grey;
         }
     }
 
     .search-results {
-        padding-top: $search-bar-height;
         height: 100%;
 
         ul {
             padding: 0;
-            height: 100%;
+            height: calc(100% - #{$search-bar-height} - 1.5rem);
             overflow: scroll;
 
             h4 {
-                padding: 1rem 1rem 0.5rem;
+                padding: 0.5rem 1rem;
+                background-color: $white;
                 font-size: 0.875rem;
                 text-transform: uppercase;
             }
