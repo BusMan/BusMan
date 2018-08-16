@@ -25,13 +25,10 @@ export default {
       }
     },
   },
-  mounted: {
-    console.log('hello');
-    const pixelsPerRem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const numberOfActions = this.actions.length;
-    const initialOffsetInPixels = 3 * (numberOfActions - 1) * pixelsPerRem;
-    actionBar.style.transform = "translateY(" + newY + "px)";
-  }
+  updated: function () {
+    console.log('hola');
+    this.moveActionBar(true);
+  },
   methods: {
     clamp: function (value, minimum, maximum) {
       return Math.max(Math.min(value, maximum), minimum)
