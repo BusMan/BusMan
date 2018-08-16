@@ -9,7 +9,7 @@
         <ul>
           <div v-for="group in getSortedRouteGroups(queryText)">
             <h4>{{ group.status }}</h4>
-            <li v-for="route in group.routes">{{ route.routeName }}</li>
+            <li v-for="route in group.routes" @click="select" :data-route="route.routeName">{{ route.routeName }}</li>
           </div>
         </ul>
       </div>
@@ -93,6 +93,10 @@ export default {
         return translations[routeStatusType];
       }
       return '';
+    },
+    select: function (e) {
+      this.$emit('select-search-result', e.target.dataset.route);
+      this.close();
     }
   },
 }
