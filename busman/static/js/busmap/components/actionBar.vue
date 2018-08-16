@@ -25,6 +25,13 @@ export default {
       }
     },
   },
+  mounted: {
+    console.log('hello');
+    const pixelsPerRem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const numberOfActions = this.actions.length;
+    const initialOffsetInPixels = 3 * (numberOfActions - 1) * pixelsPerRem;
+    actionBar.style.transform = "translateY(" + newY + "px)";
+  }
   methods: {
     clamp: function (value, minimum, maximum) {
       return Math.max(Math.min(value, maximum), minimum)
@@ -43,7 +50,7 @@ export default {
       this.actionBarTouchInProgress = true;
     },
     actionBarTouchMove: function (e) {
-      console.log('actionBarTouchMove');      
+      console.log('actionBarTouchMove');
       if (!this.actionBarTouchInProgress) return;
 
       this.moving = true;
@@ -98,7 +105,7 @@ export default {
     actionBarClick: function (e) {
       e.stopPropagation();
       console.log('action clicked');
-      
+
       const actions = {
         'assign-bus': this.assignBus,
         'search': this.search,

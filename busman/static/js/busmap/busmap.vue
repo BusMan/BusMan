@@ -1,7 +1,7 @@
 <template>
   <div @click="busmapClick">
     <top-bar :message="message"></top-bar>
-    <map-svg :selected="selected" :highlighted="highlighted" @select-space="select"/>
+    <map-svg :selected="selected" :highlighted="highlighted" :routes="routes" @select-space="select"/>
     <action-bar :actions="actions" :actionbarOpen="actionbarOpen" @set-actionbar-open="setActionbarOpen"></action-bar>
   </div>
 </template>
@@ -24,11 +24,6 @@ export default {
       'actionbarOpen': false,
       'actions': [
         {
-          'text': 'Assign Bus',
-          'id': 'assign-bus',
-          'icon': 'fa-plus',
-        },
-        {
           'text': 'Search',
           'id': 'search',
           'icon': 'fa-search',
@@ -49,7 +44,20 @@ export default {
   methods: {
     busmapClick: function (e) {
       if (!this.actionbarOpen && e.target.nodeName !== 'path') {
+        console.log('hello');
         this.selected = [];
+        this.actions = [
+          {
+            'text': 'Search',
+            'id': 'search',
+            'icon': 'fa-search',
+          },
+          {
+            'text': 'Mark Delayed',
+            'id': 'mark-delayed',
+            'icon': 'fa-clock',
+          },
+        ]
       }
       this.actionbarOpen = false;
     },
@@ -58,6 +66,23 @@ export default {
     },
     select: function (selected) {
       this.selected = selected;
+      this.actions = [
+        {
+          'text': 'Assign Bus',
+          'id': 'assign-bus',
+          'icon': 'fa-plus',
+        },
+        {
+          'text': 'Search',
+          'id': 'search',
+          'icon': 'fa-search',
+        },
+        {
+          'text': 'Mark Delayed',
+          'id': 'mark-delayed',
+          'icon': 'fa-clock',
+        },
+      ]
     }
   }
 }
