@@ -95,7 +95,10 @@ export default {
       return '';
     },
     select: function (e) {
-      this.$emit('select-search-result', e.target.dataset.route);
+      this.$emit('select-search-result', {
+        'route': e.target.dataset.route,
+        'context': this.action
+      });
       this.close();
     }
   },
