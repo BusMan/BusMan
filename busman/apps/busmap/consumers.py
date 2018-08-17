@@ -31,21 +31,25 @@ class BusConsumer(WebsocketConsumer):
         if not (self.user.is_authenticated or not self.user.bus.is_admin):
             return
 
-        json_data = json.loads(text_data)
-        action = json_data['action']
-        space = json_data['space_id']
-        route_id = json_data['route_id']
-        route = Route.objects.get(pk=route_id)
+        try:
+            json_data = json.loads(text_data)
+            action = json_data['action']
+            space = json_data['space_id']
+            route_id = json_data['route_id']
+            route = Route.objects.get(pk=route_id)
 
-        if action == 'delay':
-            route.status = 'd'
-        if action == 'arrive':
-            route.space = space
-            route.status = 'a'
-        if action == 'unarrive':
-            route.space = None
-            route.status = 'o'
-        route.save()
+            if action == 'delay':
+                route.status = 'd'
+            if action == 'arrive':
+                route.space = space
+                route.status = 'a'
+            if action == 'unarrive':
+                route.space = None
+                route.status = 'o'
+            route.save()
+        except:
+            # TODO: catch exceptions
+            pass
 
         message = serialize_state(None, user=self.user)
 
