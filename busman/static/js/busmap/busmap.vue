@@ -39,7 +39,14 @@ export default {
       'routes': this.routes,
       'searchVisible': false,
       'searchAction': '',
+      'ws': null,
     }
+  },
+  created: function () {
+    const protocol = window.location.protocol.includes('s') ? 'wss' : 'ws';
+    const host = window.location.host;
+    this.ws = new WebSocket(`${protocol}://${host}/ws/`);
+    this.ws.onmessage = this.handleWsMessage;
   },
   components: {
     topBar,
@@ -76,7 +83,6 @@ export default {
     },
     select: function (selected) {
       this.selected = selected;
-<<<<<<< HEAD
       this.actions = [
         {
           'text': 'Assign Bus',
@@ -94,11 +100,14 @@ export default {
           'icon': 'fa-clock',
         },
       ]
-=======
     },
     closeSearchOverlay: function () {
       this.searchVisible = false;
->>>>>>> 8384cf1... Open on action click and close on cancel
+    },
+    handleWsMessage: function (e) {
+      console.log(e.data);
+      const data = e.data;
+      this.routes = data.routes;
     }
   }
 }
