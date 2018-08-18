@@ -9,3 +9,7 @@ function translateRouteStatusType (routeStatusType) {
   }
   return '';
 }
+
+module.exports = {
+  translateRouteStatusType: translateRouteStatusType,
+};

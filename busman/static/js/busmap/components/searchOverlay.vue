@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { translateRouteStatusType } from '../../utils/utils';
+import {translateRouteStatusType} from '../../utils/utils';
 
 export default {
   props: [
@@ -66,14 +66,13 @@ export default {
       }
 
       // TODO: alphabetically sort routes within each group
-      let routeGroups = [];
+			let routeGroups = [];
       for (let routeStatusType of order) {
         routeGroups.push({
           'status': translateRouteStatusType(routeStatusType),
           'routes': groups[routeStatusType]
         });
       }
-      console.log(routeGroups);
       return routeGroups;
     },
     getQueriedRoutes: function (query) {
