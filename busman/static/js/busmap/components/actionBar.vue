@@ -34,8 +34,6 @@ export default {
       return Math.max(Math.min(value, maximum), minimum)
     },
     actionBarTouchStart: function (e) {
-      console.log('actionBarTouchStart');
-
       this.currentY = e.clientY || e.touches[0].clientY;
       this.startY = this.currentY;
 
@@ -47,7 +45,6 @@ export default {
       this.actionBarTouchInProgress = true;
     },
     actionBarTouchMove: function (e) {
-      console.log('actionBarTouchMove');
       if (!this.actionBarTouchInProgress) return;
 
       this.moving = true;
@@ -65,8 +62,6 @@ export default {
       actionBar.style.transform = "translateY(" + newY + "px)";
     },
     actionBarTouchEnd: function (e) {
-      console.log('actionBarTouchEnd');
-
       if (!this.moving) return;
       this.moving = false;
       this.actionBarTouchInProgress = false;
