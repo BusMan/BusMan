@@ -54,7 +54,7 @@ body > div {
 
         @include no-select;
 
-        i.fa { 
+        i.fa {
             margin-right: 0.5rem;
         }
     }
@@ -65,8 +65,101 @@ body > div {
 
         padding-top: 1.4rem;
     }
-    
+
     .action:last-child {
         padding-bottom: 1.4rem;
     }
+}
+
+.search-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: .75rem .75rem 0 0;
+    z-index: 100;
+
+    box-shadow: 0px -1px 6px rgba(0, 0, 0, 0.2), 2px 0px 4px rgba(0, 0, 0, 0.2), -2px 0px 4px rgba(0, 0, 0, 0.2);
+
+    background-color: $true-white;
+
+    $search-bar-height: 3rem;
+
+    .search-bar {
+        width: 85%;
+        display: grid;
+        margin: 1rem auto 0.75rem;
+        grid-template-columns: 1fr 85%;
+
+        input {
+            width: 100%;
+            height: $search-bar-height;
+            padding: 1rem;
+
+            background-color: $light-grey;
+
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+
+            border-radius: 0 .75rem .75rem 0;
+
+            border: 1px solid $dark-grey;
+            border-left: none;
+        }
+
+        span {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+
+            background-color: $light-grey;
+
+            border-radius: .75rem 0 0 .75rem;
+            border: 1px solid $dark-grey;
+        }
+    }
+
+    .search-results {
+        height: 100%;
+
+        ul {
+            padding: 0;
+            height: calc(100% - #{$search-bar-height} - 1.75rem);
+            overflow: scroll;
+
+            h4 {
+                padding: 0.5rem 1rem;
+                background-color: $white;
+                font-size: 0.875rem;
+                text-transform: uppercase;
+
+                position: sticky;
+                top: 0;
+            }
+
+            li {
+                padding: 1rem;
+                box-sizing: border-box;
+
+                background-color: $true-white;
+                transition: background-color 0.2s;
+
+                border-top: solid 1px $white;
+
+                &:active {
+                    background-color: $light-grey;
+                }
+            }
+        }
+    }
+}
+
+.search-popup-enter-active, .search-popup-leave-active {
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.search-popup-enter, .search-popup-leave-to {
+    transform: translateY(100%);
+    opacity: 0;
 }

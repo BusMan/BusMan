@@ -30,8 +30,6 @@ export default {
       return Math.max(Math.min(value, maximum), minimum)
     },
     actionBarTouchStart: function (e) {
-      console.log('actionBarTouchStart');
-
       this.currentY = e.clientY || e.touches[0].clientY;
       this.startY = this.currentY;
 
@@ -43,7 +41,6 @@ export default {
       this.actionBarTouchInProgress = true;
     },
     actionBarTouchMove: function (e) {
-      console.log('actionBarTouchMove');      
       if (!this.actionBarTouchInProgress) return;
 
       this.moving = true;
@@ -61,8 +58,6 @@ export default {
       actionBar.style.transform = "translateY(" + newY + "px)";
     },
     actionBarTouchEnd: function (e) {
-      console.log('actionBarTouchEnd');
-
       if (!this.moving) return;
       this.moving = false;
       this.actionBarTouchInProgress = false;
@@ -97,25 +92,7 @@ export default {
     },
     actionBarClick: function (e) {
       e.stopPropagation();
-      console.log('action clicked');
-      
-      const actions = {
-        'assign-bus': this.assignBus,
-        'search': this.search,
-        'mark-delayed': this.markDelayed,
-      }
-      const actionSelected = e.target.dataset.action;
-      const actionFunction = actions[actionSelected];
-      actionFunction();
-    },
-    assignBus: function() {
-      console.log('assignBus');
-    },
-    search: function() {
-      console.log('search');
-    },
-    markDelayed: function() {
-      console.log('markDelayed');
+      const actionSelected = e.target.dataset.action;this.$emit('action-selected', actionSelected);
     },
   }
 }
