@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { translateRouteStatusType } from '../../utils/utils';
+
 export default {
   props: [
     'routes',
@@ -67,7 +69,7 @@ export default {
       let routeGroups = [];
       for (let routeStatusType of order) {
         routeGroups.push({
-          'status': this.translateRouteStatusType(routeStatusType),
+          'status': translateRouteStatusType(routeStatusType),
           'routes': groups[routeStatusType]
         });
       }
@@ -82,17 +84,6 @@ export default {
         }
       }
       return results;
-    },
-    translateRouteStatusType: function (routeStatusType) {
-      const translations = {
-        'o': 'On Time',
-        'a': 'Arrived',
-        'd': 'Delayed',
-      }
-      if (routeStatusType in translations) {
-        return translations[routeStatusType];
-      }
-      return '';
     },
     select: function (e) {
       this.$emit('select-search-result', e.target.dataset.route);
