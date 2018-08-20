@@ -9,8 +9,8 @@ class Route(models.Model):
     ARRIVAL_STATUSES = (('a', 'Arrived (In the lot)'), ('d', 'Delayed'), ('o', 'On Time (Expected)'))
 
     route_name = models.CharField(max_length=30, unique=True)
-    space = models.CharField(max_length=4, blank=True)
-    bus_number = models.CharField(max_length=5, blank=True)
+    space = models.CharField(max_length=4, blank=True, null=True)
+    bus_number = models.CharField(max_length=5, blank=True, null=True)
     status = models.CharField('arrival status', choices=ARRIVAL_STATUSES, max_length=1, default='o')
 
     def reset_status(self):

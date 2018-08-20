@@ -40,10 +40,10 @@ class BusConsumer(WebsocketConsumer):
 
             if action == 'delay':
                 route.status = 'd'
-            if action == 'arrive':
+            if action == 'assign':
                 route.space = space
                 route.status = 'a'
-            if action == 'unarrive':
+            if action == 'unassign':
                 route.space = None
                 route.status = 'o'
 

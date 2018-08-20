@@ -3,7 +3,7 @@
     <search-overlay
       :routes="routeList"
       :visible="searchVisible"
-      :action="searchAction"
+      :action="selectedAction"
       @close-search-overlay="handleCloseSearchOverlay"
       @select-search-result="handleSelectSearchResult">
     </search-overlay>
@@ -30,6 +30,7 @@ import topBar from './components/topBar.vue';
 import mapSvg from './components/mapSvg.vue';
 import actionBar from './components/actionBar.vue';
 import searchOverlay from './components/searchOverlay.vue';
+import {actionsEnum} from '../utils/utils';
 
 export default {
   props: [
@@ -40,23 +41,24 @@ export default {
     return {
       'message': `Hi ${this.user.name}, you are cool.`,
       'selected': [],
+      'selectedRoute': null,
+      'selectedAction': '',
       'highlighted': [],
       'actionbarOpen': false,
       'actions': [
         {
           'text': 'Search',
-          'id': 'search',
+          'id': actionsEnum.SEARCH,
           'icon': 'fa-search',
         },
         {
           'text': 'Mark Delayed',
-          'id': 'mark-delayed',
+          'id': actionsEnum.DELAY_BUS,
           'icon': 'fa-clock',
         },
       ],
       'routeList': this.routes,
       'searchVisible': false,
-      'searchAction': '',
       'ws': null,
     }
   },
@@ -84,56 +86,73 @@ export default {
           },
           {
             'text': 'Mark Delayed',
-            'id': 'mark-delayed',
+            'id': actionsEnum.DELAY_BUS,
             'icon': 'fa-clock',
           },
         ]
       }
       this.actionbarOpen = false;
     },
+    sendAction: function (action=this.selectedAction,
+                          space_id=this.selected[0],
+                          route_id=this.selectedRoute.id) {
+      console.info('Sending Action:', {action, space_id, route_id});
+      this.ws.send(JSON.stringify({
+        action,
+        space_id,
+        route_id
+      }));
+      this.selected = [];
+      this.selectedAction = '';
+      this.selectedRoute = null;
+    },
     handleSetActionbarOpen: function (actionbarOpen) {
       this.actionbarOpen = actionbarOpen;
     },
     handleSelectAction: function (action) {
-      this.searchVisible = true;
-      this.searchAction = action;
+      this.selectedAction = action;
+      if (action == actionsEnum.UNASSIGN_BUS) {
+        this.sendAction(actionsEnum.UNASSIGN_BUS);
+      } else {
+        this.searchVisible = true;
+      }
     },
     handleSelectSpace: function (space) {
       this.selected = [space.id()];
-      console.log(space);
       if (space.data('route')) {
         this.actions = [
           {
             'text': 'Unassign Bus',
-            'id': 'unassign-bus',
+            'id': actionsEnum.UNASSIGN_BUS,
             'icon': 'fa-minus',
           },
           {
             'text': 'Search',
-            'id': 'search',
+            'id': actionsEnum.SEARCH,
             'icon': 'fa-search',
           },
           {
             'text': 'Mark Delayed',
-            'id': 'mark-delayed',
+            'id': actionsEnum.DELAY_BUS,
             'icon': 'fa-clock',
           },
         ]
+        this.selectedRoute = space.data('route');
       } else {
         this.actions = [
           {
             'text': 'Assign Bus',
-            'id': 'assign-bus',
+            'id': actionsEnum.ASSIGN_BUS,
             'icon': 'fa-plus',
           },
           {
             'text': 'Search',
-            'id': 'search',
+            'id': actionsEnum.SEARCH,
             'icon': 'fa-search',
           },
           {
             'text': 'Mark Delayed',
-            'id': 'mark-delayed',
+            'id': actionsEnum.DELAY_BUS,
             'icon': 'fa-clock',
           },
         ]
@@ -142,14 +161,16 @@ export default {
     handleCloseSearchOverlay: function () {
       this.searchVisible = false;
     },
-    handleSelectSearchResult: function (e) {
-      console.log(e.route);
-      console.log(e.context);
+    handleSelectSearchResult: function (route) {
+      this.selectedRoute = route;
+      if (this.selectedAction == actionsEnum.SEARCH) {
+        this.highlighted = [route.space];
+      } else {
+        this.sendAction();
+      }
     },
     handleWsMessage: function (e) {
       const data = JSON.parse(e.data);
-      console.log(data);
-      console.log(data.routes);
       this.routeList = data.routes;
     }
   }

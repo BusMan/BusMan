@@ -9,7 +9,7 @@
         <ul>
           <div v-for="group in getSortedRouteGroups(queryText)">
             <h4>{{ group.status }}</h4>
-            <li v-for="route in group.routes" @click="select" :data-route="route.routeName">{{ route.routeName }}</li>
+            <li v-for="route in group.routes" @click="select(route)">{{ route.routeName }}</li>
           </div>
         </ul>
       </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {translateRouteStatusType} from '../../utils/utils';
+import {translateRouteStatusType, actionsEnum} from '../../utils/utils';
 
 export default {
   props: [
@@ -41,11 +41,11 @@ export default {
       query = query || '';
       query = query.trim();
       let sortedRouteGroups = [];
-      if (this.action == 'assign-bus') {
+      if (this.action == actionsEnum.ASSIGN_BUS) {
         sortedRouteGroups = this.getRouteGroups(query, ['o', 'd']);
-      } else if (this.action == 'search') {
-        sortedRouteGroups = this.getRouteGroups(query, ['a', 'o', 'd']);
-      } else if (this.action == 'mark-delayed') {
+      } else if (this.action == actionsEnum.SEARCH) {
+        sortedRouteGroups = this.getRouteGroups(query, ['a', 'd', 'o']);
+      } else if (this.action == actionsEnum.DELAY_BUS) {
         sortedRouteGroups = this.getRouteGroups(query, ['o']);
       }
       return sortedRouteGroups;
@@ -84,11 +84,8 @@ export default {
       }
       return results;
     },
-    select: function (e) {
-      this.$emit('select-search-result', {
-        'route': e.target.dataset.route,
-        'context': this.action
-      });
+    select: function (route) {
+      this.$emit('select-search-result', route);
       this.close();
     }
   },

@@ -26,19 +26,25 @@ export default {
     resetStyles: function (space) {
       space.style('stroke-width', '1px');
       space.style('stroke', '#A1A09A');
+      space.style('fill', '#ECEAE3');
     },
     addOutline: function (space) {
       space.style('stroke-width', '1.5px');
       space.style('stroke', 'black');
     },
     drawBus: function (space, route) {
-      space.style('fill', '#FFD800');
-
       let text = this.svg.plain(route.routeName);
       text.center(space.cx(), space.cy());
       text.id(`text${space.id()}`);
       text.size(12);
       text.style('pointer-events', 'none');
+
+      if (space.data('highlighted')) {
+        space.style('fill', 'red');
+        text.style('fill', 'white');
+      } else {
+        space.style('fill', '#FFD800');
+      }
 
       space.data('route', route);
     },
@@ -64,6 +70,9 @@ export default {
         }
         if (this.selected.includes(space.node.id)) {
           this.addOutline(space);
+        }
+        if (this.highlighted.includes(space.node.id)) {
+          space.data('highlighted', true);
         }
       }
     },
