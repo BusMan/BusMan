@@ -109,7 +109,7 @@ export default {
         'mark-delayed': this.markDelayed,
       }
       const actionSelected = e.target.dataset.action;
-      this.$emit('action-selected', actionSelected);
+      this.$emit('select-action', actionSelected);
     },
   }
 }

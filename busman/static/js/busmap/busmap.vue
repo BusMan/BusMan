@@ -4,8 +4,8 @@
       :routes="routes"
       :visible="searchVisible"
       :action="searchAction"
-      @close-search-overlay="closeSearchOverlay"
-      @select-search-result="searchSelect">
+      @close-search-overlay="handleCloseSearchOverlay"
+      @select-search-result="handleSelectSearchResult">
     </search-overlay>
 
     <top-bar :message="message"></top-bar>
@@ -14,13 +14,13 @@
       :selected="selected"
       :highlighted="highlighted"
       :routes="routes"
-      @select-space="select"/>
+      @select-space="handleSelectSpace"/>
 
     <action-bar
       :actions="actions"
       :actionbarOpen="actionbarOpen"
-      @set-actionbar-open="setActionbarOpen"
-      @action-selected="actionSelected">
+      @set-actionbar-open="handleSetActionbarOpen"
+      @select-action="handleSelectAction">
     </action-bar>
   </div>
 </template>
@@ -91,14 +91,14 @@ export default {
       }
       this.actionbarOpen = false;
     },
-    setActionbarOpen: function (actionbarOpen) {
+    handleSetActionbarOpen: function (actionbarOpen) {
       this.actionbarOpen = actionbarOpen;
     },
-    actionSelected: function (action) {
+    handleSelectAction: function (action) {
       this.searchVisible = true;
       this.searchAction = action;
     },
-    select: function (selected) {
+    handleSelectSpace: function (selected) {
       this.selected = selected;
       this.actions = [
         {
@@ -118,10 +118,10 @@ export default {
         },
       ]
     },
-    closeSearchOverlay: function () {
+    handleCloseSearchOverlay: function () {
       this.searchVisible = false;
     },
-    searchSelect: function (e) {
+    handleSelectSearchResult: function (e) {
       console.log(e.route);
       console.log(e.context);
     },
