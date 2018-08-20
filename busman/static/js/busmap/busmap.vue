@@ -1,9 +1,27 @@
 <template>
   <div @click="busmapClick">
-    <search-overlay :routes="routes" :visible="searchVisible" :action="searchAction" @close-search-overlay="closeSearchOverlay"></search-overlay>
+    <search-overlay
+      :routes="routes"
+      :visible="searchVisible"
+      :action="searchAction"
+      @close-search-overlay="closeSearchOverlay"
+      @select-search-result="searchSelect">
+    </search-overlay>
+
     <top-bar :message="message"></top-bar>
-    <map-svg :selected="selected" :highlighted="highlighted" :routes="routes" @select-space="select"/>
-    <action-bar :actions="actions" :actionbarOpen="actionbarOpen" @set-actionbar-open="setActionbarOpen" @action-selected="actionSelected"></action-bar>
+
+    <map-svg
+      :selected="selected"
+      :highlighted="highlighted"
+      :routes="routes"
+      @select-space="select"/>
+
+    <action-bar
+      :actions="actions"
+      :actionbarOpen="actionbarOpen"
+      @set-actionbar-open="setActionbarOpen"
+      @action-selected="actionSelected">
+    </action-bar>
   </div>
 </template>
 
@@ -102,6 +120,10 @@ export default {
     },
     closeSearchOverlay: function () {
       this.searchVisible = false;
+    },
+    searchSelect: function (e) {
+      console.log(e.route);
+      console.log(e.context);
     },
     handleWsMessage: function (e) {
       const data = e.data;
