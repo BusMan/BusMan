@@ -28,7 +28,7 @@ class BusConsumer(WebsocketConsumer):
         )
 
     def receive(self, text_data):
-        if not (self.user.is_authenticated or not self.user.bus.is_admin):
+        if not self.user.is_authenticated or not self.user.bus.is_admin:
             return
 
         try:
@@ -46,10 +46,12 @@ class BusConsumer(WebsocketConsumer):
             if action == 'unarrive':
                 route.space = None
                 route.status = 'o'
+
+            print('Processing with action {}, space {}, and route {}'.format(action, space, route))
             route.save()
-        except:
+        except Exception as e:
             # TODO: catch exceptions
-            pass
+            print(e)
 
         message = serialize_state(None, user=self.user)
 
