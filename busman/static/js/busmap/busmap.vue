@@ -1,7 +1,7 @@
 <template>
   <div @click="busmapClick">
     <search-overlay
-      :routes="routes"
+      :routes="routeList"
       :visible="searchVisible"
       :action="searchAction"
       @close-search-overlay="handleCloseSearchOverlay"
@@ -13,7 +13,7 @@
     <map-svg
       :selected="selected"
       :highlighted="highlighted"
-      :routes="routes"
+      :routes="routeList"
       @select-space="handleSelectSpace"/>
 
     <action-bar
@@ -39,8 +39,8 @@ export default {
   data: function () {
     return {
       'message': `Hi ${this.user.name}, you are cool.`,
-      'selected': null,
-      'highlighted': null,
+      'selected': [],
+      'highlighted': [],
       'actionbarOpen': false,
       'actions': [
         {
@@ -54,7 +54,7 @@ export default {
           'icon': 'fa-clock',
         },
       ],
-      'routes': this.routes,
+      'routeList': this.routes,
       'searchVisible': false,
       'searchAction': '',
       'ws': null,
@@ -98,25 +98,46 @@ export default {
       this.searchVisible = true;
       this.searchAction = action;
     },
-    handleSelectSpace: function (selected) {
-      this.selected = selected;
-      this.actions = [
-        {
-          'text': 'Assign Bus',
-          'id': 'assign-bus',
-          'icon': 'fa-plus',
-        },
-        {
-          'text': 'Search',
-          'id': 'search',
-          'icon': 'fa-search',
-        },
-        {
-          'text': 'Mark Delayed',
-          'id': 'mark-delayed',
-          'icon': 'fa-clock',
-        },
-      ]
+    handleSelectSpace: function (space) {
+      this.selected = [space.id()];
+      console.log(space);
+      if (space.data('route')) {
+        this.actions = [
+          {
+            'text': 'Unassign Bus',
+            'id': 'unassign-bus',
+            'icon': 'fa-minus',
+          },
+          {
+            'text': 'Search',
+            'id': 'search',
+            'icon': 'fa-search',
+          },
+          {
+            'text': 'Mark Delayed',
+            'id': 'mark-delayed',
+            'icon': 'fa-clock',
+          },
+        ]
+      } else {
+        this.actions = [
+          {
+            'text': 'Assign Bus',
+            'id': 'assign-bus',
+            'icon': 'fa-plus',
+          },
+          {
+            'text': 'Search',
+            'id': 'search',
+            'icon': 'fa-search',
+          },
+          {
+            'text': 'Mark Delayed',
+            'id': 'mark-delayed',
+            'icon': 'fa-clock',
+          },
+        ]
+      }
     },
     handleCloseSearchOverlay: function () {
       this.searchVisible = false;
@@ -126,8 +147,10 @@ export default {
       console.log(e.context);
     },
     handleWsMessage: function (e) {
-      const data = e.data;
-      this.routes = data.routes;
+      const data = JSON.parse(e.data);
+      console.log(data);
+      console.log(data.routes);
+      this.routeList = data.routes;
     }
   }
 }

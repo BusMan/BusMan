@@ -7,16 +7,6 @@
 <script>
 import SVG from 'svg.js';
 
-function resetStyles(space) {
-  space.style('stroke-width', '1px');
-  space.style('stroke', '#A1A09A');
-}
-
-function addOutline(space) {
-  space.style('stroke-width', '1.5px');
-  space.style('stroke', 'black');
-}
-
 export default {
   props: [
     'selected',
@@ -30,22 +20,58 @@ export default {
   },
   mounted: function () {
     this.svg = SVG('map-svg');
+    this.populateRoutes();
   },
   methods: {
+    resetStyles: function (space) {
+      space.style('stroke-width', '1px');
+      space.style('stroke', '#A1A09A');
+    },
+    addOutline: function (space) {
+      space.style('stroke-width', '1.5px');
+      space.style('stroke', 'black');
+    },
+    drawBus: function (space, route) {
+      space.style('fill', '#FFD800');
+
+      let text = this.svg.plain(route.routeName);
+      text.center(space.cx(), space.cy());
+      text.id(`text${space.id()}`);
+      text.size(12);
+      text.style('pointer-events', 'none');
+
+      space.data('route', route);
+    },
+    undrawBus: function (space, text) {
+      text.remove();
+      space.data('route', null);
+    },
     select: function (e) {
       if (e.target.nodeName !== 'path') {
         return;
       }
       const spaceId = e.target.id;
-      let selected = [spaceId];
-      this.$emit('select-space', selected);
+      const space = SVG.get(spaceId);
+      this.$emit('select-space', space);
     },
     updateMap: function () {
       let spaces = this.svg.select('path').members;
       for (let space of spaces) {
-        resetStyles(space);
+        this.resetStyles(space);
+        if (space.data('route')) {
+          let text = SVG.get(`text${space.id()}`)
+          this.undrawBus(space, text);
+        }
         if (this.selected.includes(space.node.id)) {
-          addOutline(space);
+          this.addOutline(space);
+        }
+      }
+    },
+    populateRoutes: function () {
+      for (let route of this.routes) {
+        if (route.space) {
+          let space = SVG.get(route.space);
+          this.drawBus(space, route);
         }
       }
     }
@@ -53,9 +79,15 @@ export default {
   watch: {
     selected: function () {
       this.updateMap();
+      this.populateRoutes();
     },
     highlighted: function () {
       this.updateMap();
+      this.populateRoutes();
+    },
+    routes: function () {
+      this.updateMap();
+      this.populateRoutes();
     }
   }
 }
