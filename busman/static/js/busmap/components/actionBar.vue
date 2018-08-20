@@ -25,8 +25,14 @@ export default {
       }
     },
   },
+  mounted: function () {
+    const pixelsPerRem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const numberOfActions = this.actions.length;
+    const initialOffsetInPixels = 3 * (numberOfActions - 1) * pixelsPerRem;
+    const actionBar = document.getElementsByClassName("actionbar")[0];
+    actionBar.style.transform = "translateY(" + initialOffsetInPixels + "px)";
+  },
   updated: function () {
-    console.log('hola');
     this.moveActionBar(true);
   },
   methods: {
