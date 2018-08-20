@@ -102,7 +102,6 @@ export default {
     },
     actionBarClick: function (e) {
       e.stopPropagation();
-      console.log('action clicked');
 
       const actions = {
         'assign-bus': this.assignBus,
@@ -110,7 +109,6 @@ export default {
         'mark-delayed': this.markDelayed,
       }
       const actionSelected = e.target.dataset.action;
-      console.log(actionSelected);
       this.$emit('action-selected', actionSelected);
     },
   }

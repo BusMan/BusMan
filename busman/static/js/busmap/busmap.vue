@@ -57,7 +57,6 @@ export default {
   methods: {
     busmapClick: function (e) {
       if (!this.actionbarOpen && e.target.nodeName !== 'path') {
-        console.log('hello');
         this.selected = [];
         this.actions = [
           {
@@ -105,7 +104,6 @@ export default {
       this.searchVisible = false;
     },
     handleWsMessage: function (e) {
-      console.log(e.data);
       const data = e.data;
       this.routes = data.routes;
     }

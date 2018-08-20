@@ -73,7 +73,6 @@ export default {
           'routes': groups[routeStatusType]
         });
       }
-      console.log(routeGroups);
       return routeGroups;
     },
     getQueriedRoutes: function (query) {
