@@ -27,6 +27,9 @@ class Route(models.Model):
             'status': self.status
         }
 
+    def __str__(self):
+        return self.route_name
+
 
 class UserBusInfo(models.Model):
     user = models.OneToOneField(User, related_name="bus", on_delete=models.CASCADE)
