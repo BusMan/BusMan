@@ -52,6 +52,9 @@ class UserBusInfo(models.Model):
             'name': name
         }
 
+    def __str__(self):
+        return "{} ({})".format(self.user, self.route)
+
 
 def attach_bus_info(instance, created, raw, **kwargs):
     if not created or raw:
@@ -61,4 +64,3 @@ def attach_bus_info(instance, created, raw, **kwargs):
 
 
 post_save.connect(attach_bus_info, sender=User, dispatch_uid="attach_bus_info")
-
