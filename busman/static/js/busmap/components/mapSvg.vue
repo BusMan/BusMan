@@ -68,7 +68,7 @@ export default {
           let text = SVG.get(`text${space.id()}`)
           this.undrawBus(space, text);
         }
-        if (this.selected.includes(space.node.id)) {
+        if (this.selected === space.node.id) {
           this.addOutline(space);
         }
         if (this.highlighted.includes(space.node.id)) {

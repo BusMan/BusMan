@@ -40,7 +40,7 @@ export default {
   data: function () {
     return {
       'message': `Hi ${this.user.name}, you are cool.`,
-      'selected': [],
+      'selected': null,
       'selectedRoute': null,
       'selectedAction': '',
       'highlighted': [],
@@ -77,7 +77,7 @@ export default {
   methods: {
     busmapClick: function (e) {
       if (!this.actionbarOpen && e.target.nodeName !== 'path') {
-        this.selected = [];
+        this.selected = null;
         this.actions = [
           {
             'text': 'Search',
@@ -94,7 +94,7 @@ export default {
       this.actionbarOpen = false;
     },
     sendAction: function (action=this.selectedAction,
-                          space_id=this.selected[0],
+                          space_id=this.selected,
                           route_id=this.selectedRoute.id) {
       console.info('Sending Action:', {action, space_id, route_id});
       this.ws.send(JSON.stringify({
@@ -102,7 +102,7 @@ export default {
         space_id,
         route_id
       }));
-      this.selected = [];
+      this.selected = null;
       this.selectedAction = '';
       this.selectedRoute = null;
     },
@@ -118,7 +118,7 @@ export default {
       }
     },
     handleSelectSpace: function (space) {
-      this.selected = [space.id()];
+      this.selected = space.id();
       if (space.data('route')) {
         this.actions = [
           {
