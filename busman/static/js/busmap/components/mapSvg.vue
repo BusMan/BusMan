@@ -27,6 +27,7 @@ export default {
       space.style('stroke-width', '1px');
       space.style('stroke', '#A1A09A');
       space.style('fill', '#ECEAE3');
+      space.data('highlighted', null);
     },
     addOutline: function (space) {
       space.style('stroke-width', '1.5px');
@@ -34,9 +35,9 @@ export default {
     },
     drawBus: function (space, route) {
       let text = this.svg.plain(route.routeName);
+      text.size(12);
       text.center(space.cx(), space.cy());
       text.id(`text${space.id()}`);
-      text.size(12);
       text.style('pointer-events', 'none');
 
       if (space.data('highlighted')) {
