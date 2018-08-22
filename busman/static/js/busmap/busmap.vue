@@ -8,7 +8,7 @@
       @select-search-result="handleSelectSearchResult">
     </search-overlay>
 
-    <top-bar :message="message"></top-bar>
+    <top-bar :user="user" :routes="routeList"></top-bar>
 
     <map-svg
       :selected="selected"
