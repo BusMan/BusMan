@@ -32,6 +32,7 @@ class BusConsumer(WebsocketConsumer):
             return
 
         try:
+            print(text_data)
             json_data = json.loads(text_data)
             action = json_data['action']
             space = json_data['space_id']
@@ -40,19 +41,33 @@ class BusConsumer(WebsocketConsumer):
 
             if action == 'delay':
                 route.status = 'd'
-            if action == 'assign':
+            if action == 'assign' and space is not None:
                 route.space = space
                 route.status = 'a'
             if action == 'unassign':
                 route.space = None
                 route.status = 'o'
+            print('-------------------')
+            print('Processed with action {}, space {}, and route {}'.format(action, space, route))
+            print('-------------------')
 
-            print('Processing with action {}, space {}, and route {}'.format(action, space, route))
             route.save()
         except Exception as e:
             # TODO: catch exceptions
+            print('Exception:')
             print(e)
 
         message = serialize_state(None, user=self.user)
 
-        self.send(text_data=json.dumps(message))
+        async_to_sync(self.channel_layer.group_send)(
+            self.group_name,
+            {
+                'type': 'route_update',
+                'message': json.dumps(message)
+            }
+        )
+
+    def route_update(self, event):
+        message = event['message']
+        # Send message to WebSocket
+        self.send(text_data=message)
