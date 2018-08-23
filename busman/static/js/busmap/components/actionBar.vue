@@ -93,12 +93,14 @@ export default {
         easing: 'cubic-bezier(0, 0, 0.31, 1)',
         duration: 100
       }
-      actionBar
-        .animate(frames, options)
-        .addEventListener('finish', function () {
-          actionBar.style.transform = 'translateY(' + offset + 'rem)';
-        }
-      );
+      // TODO: less hacky JS media query solution
+      if (window.visualViewport.width < 700) {
+        actionBar
+          .animate(frames, options)
+          .addEventListener('finish', function () {
+            actionBar.style.transform = 'translateY(' + offset + 'rem)';
+          });
+      }
     },
     actionBarClick: function (e) {
       e.stopPropagation();

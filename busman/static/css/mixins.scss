@@ -83,3 +83,11 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+@mixin desktop-size {
+    width: 30vw;
+    min-width: 300px;
+
+    position: absolute;
+    right: 10vw;
+}

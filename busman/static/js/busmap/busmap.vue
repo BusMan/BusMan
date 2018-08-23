@@ -1,5 +1,5 @@
 <template>
-  <div @click="busmapClick">
+  <div @click="handleClickBusmap">
     <search-overlay
       :routes="routeList"
       :visible="searchVisible"
@@ -75,7 +75,7 @@ export default {
     searchOverlay,
   },
   methods: {
-    busmapClick: function (e) {
+    handleClickBusmap: function (e) {
       if (!this.actionbarOpen && e.target.nodeName !== 'path') {
         this.selected = null;
         this.actions = [
@@ -92,6 +92,7 @@ export default {
         ]
       }
       this.actionbarOpen = false;
+      this.searchVisible = false;
     },
     sendAction: function (action=this.selectedAction,
                           space_id=this.selected,

@@ -1,6 +1,6 @@
 <template>
   <transition name="search-popup">
-    <div class="search-overlay" v-if="visible">
+    <div class="search-overlay" v-if="visible" @click.stop>
       <div class="search-bar">
         <span class="cancel-button" @click="close"><i class="fas fa-arrow-left"></i></span>
         <input type="text" placeholder="Search here..." v-model="queryText">
