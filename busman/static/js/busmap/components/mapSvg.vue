@@ -43,6 +43,7 @@ export default {
       if (space.data('highlighted')) {
         space.style('fill', 'red');
         text.style('fill', 'white');
+        text.style('text-shadow', '2px 0px 3px black, -2px 0px 3px black, 0 2px 3px black, 0 -2px 3px black')
       } else {
         space.style('fill', '#FFD800');
       }
