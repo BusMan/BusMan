@@ -30,7 +30,7 @@ import topBar from './components/topBar.vue';
 import mapSvg from './components/mapSvg.vue';
 import actionBar from './components/actionBar.vue';
 import searchOverlay from './components/searchOverlay.vue';
-import {actionsEnum} from '../utils/utils';
+import { actionsEnum, viewModeToActionMap } from '../utils/utils';
 
 export default {
   props: [
@@ -39,24 +39,12 @@ export default {
   ],
   data: function () {
     return {
-      'message': `Hi ${this.user.name}, you are cool.`,
       'selected': null,
       'selectedRoute': null,
       'selectedAction': '',
       'highlighted': [],
       'actionbarOpen': false,
-      'actions': [
-        {
-          'text': 'Search',
-          'id': actionsEnum.SEARCH,
-          'icon': 'fa-search',
-        },
-        {
-          'text': 'Mark Delayed',
-          'id': actionsEnum.DELAY_BUS,
-          'icon': 'fa-clock',
-        },
-      ],
+      'actions': this.getActionList(viewModeToActionMap.NONE_SELECTED),
       'routeList': this.routes,
       'searchVisible': false,
       'ws': null,
@@ -78,25 +66,22 @@ export default {
     handleClickBusmap: function (e) {
       if (!this.actionbarOpen && e.target.nodeName !== 'path') {
         this.selected = null;
-        this.actions = [
-          {
-            'text': 'Search',
-            'id': 'search',
-            'icon': 'fa-search',
-          },
-          {
-            'text': 'Mark Delayed',
-            'id': actionsEnum.DELAY_BUS,
-            'icon': 'fa-clock',
-          },
-        ]
+        this.actions = this.getActionList(viewModeToActionMap.NONE_SELECTED);
       }
       this.actionbarOpen = false;
       this.searchVisible = false;
     },
+    getActionList: function (viewMode) {
+      const viewType = this.user.is_admin ? 'admin' : 'normal';
+      return viewMode[viewType];
+    },
     sendAction: function (action=this.selectedAction,
                           space_id=this.selected,
                           route_id=this.selectedRoute.id) {
+      if (!this.user.is_admin) {
+        console.warn('User is not an admin. Not sending: ', {action, space_id, route_id});
+        return;
+      }
       console.info('Sending Action:', {action, space_id, route_id});
       this.ws.send(JSON.stringify({
         action,
@@ -121,42 +106,10 @@ export default {
     handleSelectSpace: function (space) {
       this.selected = space.id();
       if (space.data('route')) {
-        this.actions = [
-          {
-            'text': 'Unassign Bus',
-            'id': actionsEnum.UNASSIGN_BUS,
-            'icon': 'fa-minus',
-          },
-          {
-            'text': 'Search',
-            'id': actionsEnum.SEARCH,
-            'icon': 'fa-search',
-          },
-          {
-            'text': 'Mark Delayed',
-            'id': actionsEnum.DELAY_BUS,
-            'icon': 'fa-clock',
-          },
-        ]
+        this.actions = this.getActionList(viewModeToActionMap.FILLED_SPACE_SELECTED)
         this.selectedRoute = space.data('route');
       } else {
-        this.actions = [
-          {
-            'text': 'Assign Bus',
-            'id': actionsEnum.ASSIGN_BUS,
-            'icon': 'fa-plus',
-          },
-          {
-            'text': 'Search',
-            'id': actionsEnum.SEARCH,
-            'icon': 'fa-search',
-          },
-          {
-            'text': 'Mark Delayed',
-            'id': actionsEnum.DELAY_BUS,
-            'icon': 'fa-clock',
-          },
-        ]
+        this.actions = this.getActionList(viewModeToActionMap.BLANK_SPACE_SELECTED);
       }
     },
     handleCloseSearchOverlay: function () {
